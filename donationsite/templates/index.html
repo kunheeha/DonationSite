@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Donation website to donate to recent graduates amidst the covid-19 pandemic">
+	<meta name="keywords" content="Donate, Donation, Donate to graduates, Graduates, Recent graduates, donation website">
+	<meta name="developer" content="Kunhee Ha">
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+	<!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='icons/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+
+	<title>Donate to Grads</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
+
+	<!-- My CSS -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/business-frontpage.css') }}">
+</head>
+<body>
+
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="#">Donate2Grads</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/makedonation">Make a Donation</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/register">Register</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/login">Login</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Header -->
+	<header class="bg-primary py-5 mb-5">
+		<div class="container h-100">
+			<div class="row h-100 align-items-center">
+				<div class="col-lg-12">
+					<h1 class="display-4 text-white mt-5 mb-2">Donate to Graduates</h1>
+					<p class="lead mb-5 text-white-50">Give us money. Many many moneys</p>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn btn-light my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- MAIN -->
+	<div class="container">
+		<!-- Intro Info -->
+		<div class="row">
+			<div class="col-md-8 mb-5">
+				<h2>What We Do</h2>
+				<hr>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
+				<a class="btn btn-primary btn-lg" href="#">Call to Action &raquo;</a>
+			</div>
+			<div class="col-md-4 mb-5">
+				<h2>Are you a Graduate?</h2>
+				<hr>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
+			</div>
+		</div>
+		<!-- Profiles -->
+		<div class="row">
+			<div class="col-md-4 mb-5">
+				<div class="card h-100">
+					<img class="card-img-top" src="https://placehold.it/300x200" alt="">
+					<div class="card-body">
+						<h4 class="card-title">Card title</h4>
+						<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus.</p>
+					</div>
+					<div class="card-footer">
+						<a href="#" class="btn btn-primary">Donate</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-5">
+				<div class="card h-100">
+					<img class="card-img-top" src="https://placehold.it/300x200" alt="">
+					<div class="card-body">
+						<h4 class="card-title">Card title</h4>
+						<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus.</p>
+					</div>
+					<div class="card-footer">
+						<a href="#" class="btn btn-primary">Donate</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-5">
+				<div class="card h-100">
+					<img class="card-img-top" src="https://placehold.it/300x200" alt="">
+					<div class="card-body">
+						<h4 class="card-title">Card title</h4>
+						<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus.</p>
+					</div>
+					<div class="card-footer">
+						<a href="#" class="btn btn-primary">Donate</a>
+					</div>
+				</div>
+			</div>
+			<!-- Add More cards -->
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="py-5 bg-dark">
+		<div class="container">
+			<p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+		</div>
+	</footer>
+
+
+
+	<!-- Bootstrap -->
+	<script type="text/javascript" src="{{ url_for('static', filename='javascript/bootstrap/bootstrap.bundle.min.js') }}"></script>
+	<!-- jQuery -->
+	<script type="text/javascript" src="{{ url_for('static', filename='javascript/jquery/jquery.min.js') }}"></script>
+
+</body>
+</html>
