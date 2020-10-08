@@ -15,9 +15,16 @@ def makedonation():
     return render_template("makedonation.html")
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'kunheeha@gmail.com' and form.password.data == 'gkrjsgml':
+            flash('You have been logged in', 'success')
+            return redirect(url_for('account'))
+
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template("login.html", title='Login', form=form)
 
 
@@ -26,7 +33,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         flash(f'Account created for {form.name.data}', 'success')
-        return	redirect(url_for('account'))
+        return redirect(url_for('account'))
     return render_template("register.html", title='Register', form=form)
 
 
@@ -34,6 +41,7 @@ def register():
 def profile():
     return render_template("profile.html")
 
+
 @app.route('/account')
 def account():
-	return render_template("account.html")
+    return render_template("account.html")

@@ -4,15 +4,28 @@
 
 {% block content %}
 
-	<header class="py-10 mb-5"></header>
+	<div class="bg-primary py-5 mb-5">
+		<div class="container h-100">
+			<div class="row h-100 align-items-center">
+				<div class="col-lg-12">
+					<h1 class="display-4 text-white mt-5 mb-2">Donate to Graduates</h1>
+					<p class="lead mb-5 text-white-50">Give us money. Many many moneys</p>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn btn-light my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	<main class="container">
-		<div class="row">
+	<main class="container h-100">
+		<div class="row h-100">
 			<div class="col-md-8"></div>
 			<div class="col-md-8">
 				{% with messages = get_flashed_messages(with_categories=true) %}
 					{% if messages %}
-						{% for category, messages in messages %}
+						{% for category, message in messages %}
 							<div class="alert alert-{{ category }}">
 								{{ message }}								
 							</div>

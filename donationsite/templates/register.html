@@ -25,21 +25,59 @@
 							{{ form.hidden_tag() }}
 							<div>
 								<div class="form-label-group">
+									{% if form.name.errors %}
+										{{ form.name(id="inputName", class="form-control is-invalid", placeholder="Name") }}
+										<div class="invalid-feedback">
+											{% for error in form.name.errors %}
+												<span>{{ error }}</span>
+											{% endfor %}
+										</div>
+									{% else %}
 									{{ form.name(id="inputName", class="form-control", placeholder="Name") }}
+
 									<label for="inputName">Name</label>
+									{% endif %}
+									
 								</div>
 								<div class="form-label-group">
+									{% if form.email.errors %}
+										{{ form.email(id="inputEmail", class="form-control is-invalid", placeholder="Email") }}
+										<div class="invalid-feedback">
+											{% for error in form.email.errors %}
+												<span>{{ error }}</span>
+											{% endfor %}
+										</div>
+									{% else %}
 									{{ form.email(id="inputEmail", class="form-control", placeholder="Email") }}
 									<label for="inputEmail">Email</label>
+									{% endif %}
 								</div>
 								<hr>
 								<div class="form-label-group">
+									{% if form.password.errors %}
+										{{ form.password(id="inputPassword", class="form-control is-invalid", placeholder="Password") }}
+										<div class="invalid-feedback">
+											{% for error in form.password.errors %}
+												<span>{{ error }}</span>
+											{% endfor %}
+										</div>
+									{% else %}
 									{{ form.password(id="inputPassword", class="form-control", placeholder="Password") }}
 									<label for="inputPassword">Password</label>
+									{% endif %}
 								</div>
 								<div class="form-label-group">
+									{% if form.confirm_password.errors %}
+										{{ form.confirm_password(id="inputConfirm", class="form-control is-invalid", placeholder="Confirm Password") }}
+										<div class="invalid-feedback">
+											{% for error in form.confirm_password.errors %}
+												<span>{{ error }}</span>
+											{% endfor %}
+										</div>
+									{% else %}
 									{{ form.confirm_password(id="inputConfirm", class="form-control", placeholder="Confirm Password") }}
 									<label for="inputConfirm">Confirm Password</label>
+									{% endif %}
 								</div>
 								{{ form.submit(class="btn btn-lg btn-primary btn-block text-uppercase") }}
 								<a class="d-block text-center mt-2 small" href="/login">Sign In</a>
