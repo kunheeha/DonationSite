@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/signin.css') }}">
+
+{% endblock %}
+
+{% block content %}
+
+	<header class="py-1 mb-5">
+	</header>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-10 col-xl-9 mx-auto">
+				<div class="card card-signin flex-row my-5">
+					<div class="card-img-left d-none d-md-flex">
+						<!-- Background image -->
+					</div>
+
+					<div class="card-body">
+						<h5 class="card-title text-center">Register</h5>
+						<form class="form-signin" method="POST" action="">
+							{{ form.hidden_tag() }}
+							<div>
+								<div class="form-label-group">
+									{{ form.name(id="inputName", class="form-control", placeholder="Name") }}
+									<label for="inputName">Name</label>
+								</div>
+								<div class="form-label-group">
+									{{ form.email(id="inputEmail", class="form-control", placeholder="Email") }}
+									<label for="inputEmail">Email</label>
+								</div>
+								<hr>
+								<div class="form-label-group">
+									{{ form.password(id="inputPassword", class="form-control", placeholder="Password") }}
+									<label for="inputPassword">Password</label>
+								</div>
+								<div class="form-label-group">
+									{{ form.confirm_password(id="inputConfirm", class="form-control", placeholder="Confirm Password") }}
+									<label for="inputConfirm">Confirm Password</label>
+								</div>
+								{{ form.submit(class="btn btn-lg btn-primary btn-block text-uppercase") }}
+								<a class="d-block text-center mt-2 small" href="/login">Sign In</a>
+								<hr class="my-4">
+								<a class="btn btn-lg btn-linkedin btn-block text-uppercase"><i class="fab fa-linkedin-f mr-2"></i> Sign up with LinkedIn</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}

@@ -1,50 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="Donation website to donate to recent graduates amidst the covid-19 pandemic">
-	<meta name="keywords" content="Donate, Donation, Donate to graduates, Graduates, Recent graduates, donation website">
-	<meta name="developer" content="Kunhee Ha">
+{% extends 'base.html' %}
 
-	<!-- Favicon -->
-	<link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
-	<!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='icons/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+{% block head %}
 
-	<title>Donate to Grads</title>
-
-	<!-- Bootstrap -->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
-
-	<!-- My CSS -->
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/business-frontpage.css') }}">
-</head>
-<body>
 
-	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="#">Donate2Grads</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="/makedonation">Make a Donation</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/register">Register</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/login">Login</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+{% endblock %}
 
+{% block content %}
 	<!-- Header -->
 	<header class="bg-primary py-5 mb-5">
 		<div class="container h-100">
@@ -118,20 +80,4 @@
 			<!-- Add More cards -->
 		</div>
 	</div>
-
-	<!-- Footer -->
-	<footer class="py-5 bg-dark">
-		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
-		</div>
-	</footer>
-
-
-
-	<!-- Bootstrap -->
-	<script type="text/javascript" src="{{ url_for('static', filename='javascript/bootstrap/bootstrap.bundle.min.js') }}"></script>
-	<!-- jQuery -->
-	<script type="text/javascript" src="{{ url_for('static', filename='javascript/jquery/jquery.min.js') }}"></script>
-
-</body>
-</html>
+{% endblock content %}
