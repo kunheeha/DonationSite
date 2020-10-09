@@ -1,8 +1,13 @@
-from donationsite import db
+from donationsite import db, admin, login_manager
 from flask_login import UserMixin, current_user
 from flask_admin import AdminIndexView
 from flask_admin.contrib import sqla
 from flask_admin.contrib.sqla import ModelView
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 class User(db.Model, UserMixin):
@@ -75,8 +80,8 @@ class Bankdetails(db.Model):
     __tablename__ = 'bankdetails'
     id = db.Column(db.Integer(), primary_key=True)
     account_holder = db.Column(db.String(30), nullable=False)
-    account_number = db.Column(db.Integer(), unique=True, nullable=False)
-    sort_code = db.Column(db.Integer(), unique=True, nullable=False)
+    account_number = db.Column(db.String(10), unique=True, nullable=False)
+    sort_code = db.Column(db.String(10), unique=True, nullable=False)
 
     def __repr__(self):
         return f"Bankdetails('{self.account_holder}')"
@@ -94,23 +99,23 @@ class UserBankdetails(db.Model):
         return f"UserBankdetails('{self.user_id}')"
 
 
-# class MyAdminIndexView(AdminIndexView):
-#     def is_accessible(self):
-#         if current_user.is_authenticated and current_user.has_role('Admin'):
-#             return True
-#         else:
-#             return False
+class MyAdminIndexView(AdminIndexView):
+    def is_accessible(self):
+        if current_user.is_authenticated and current_user.has_role('Admin'):
+            return True
+        else:
+            return False
 
 
-# class MyModelView(ModelView):
-#     def is_accessible(self):
-#         if current_user.is_authenticated and current_user.has_role('Admin'):
-#             return True
-#         else:
-#             return False
+class MyModelView(ModelView):
+    def is_accessible(self):
+        if current_user.is_authenticated and current_user.has_role('Admin'):
+            return True
+        else:
+            return False
 
 
-# admin.add_view(MyModelView(User, db.session))
-# admin.add_view(MyModelView(Role, db.session))
-# admin.add_view(MyModelView(Degree, db.session))
-# admin.add_view(MyModelView(Bankdetails, db.session))
+admin.add_view(MyModelView(User, db.session))
+admin.add_view(MyModelView(Role, db.session))
+admin.add_view(MyModelView(Degree, db.session))
+admin.add_view(MyModelView(Bankdetails, db.session))
