@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
-{% block head %}{% endblock %}
+{% block head %}
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/account.css') }}">
+
+	<!-- Fancybox -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.fancybox.min.css') }}">
+
+{% endblock %}
 
 {% block content %}
 
@@ -8,21 +15,15 @@
 		<div class="container h-100">
 			<div class="row h-100 align-items-center">
 				<div class="col-lg-12">
-					<h1 class="display-4 text-white mt-5 mb-2">Donate to Graduates</h1>
-					<p class="lead mb-5 text-white-50">Give us money. Many many moneys</p>
-					<form class="form-inline my-2 my-lg-0">
-						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-						<button class="btn btn-light my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-					</form>
+					<h2 class="display-4 text-white mt-5 mb-2">My Account</h2>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<main class="container h-100">
-		<div class="row h-100">
-			<div class="col-md-8"></div>
-			<div class="col-md-8">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
 				{% with messages = get_flashed_messages(with_categories=true) %}
 					{% if messages %}
 						{% for category, message in messages %}
@@ -33,12 +34,163 @@
 					{% endif %}
 				{% endwith %}
 			</div>
-			<div class="py-10 mb-5">
-				<p>HEllo</p>
+		</div>
+		<!-- Intro Info -->
+		<div class="row">
+			<div class="col-md-8 mb-5">
+				<h2>{{ current_user.name }}</h2>
+				<hr>
+				<div class="row">
+					<div class="col-md-4 imagediv">
+						<a data-fancybox data-src='#addImage' href=""><img src="https://via.placeholder.com/130"></a>
+					</div>
+					<div class="col-md-8">
+						<p>{{ current_user.self_desc }}</p>
+						<div class="row">
+							<div class="col-md-6">
+								<small><a data-fancybox data-src='#addCV' href="">Add CV</a></small>
+							</div>
+							<div class="col-md-6 text-right">
+								<small><a data-fancybox data-src='#addDesc' href="">Edit</a></small>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-md-12 card">
+						<div class="card-body">
+							<h3 class="card-title">Your Bank Details</h3>
+							<p class="card-text">Your account number and sortcode</p>
+							<small><a href="#">Edit</a></small>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-5">
+				<h3>My Details</h3>
+				<hr>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card degree">
+							<div class="card-body">
+								<h4 class="card-title">Your Degree Title</h4>
+								<p class="card-text">Institution<br>Graduated year</p>
+								<small><a data-fancybox data-src='#addDegree' href="">Edit</a></small>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-	</main>
+	</div>
+	<!-- Fancybox -->
+	<div style="display: none;" id="addCV">
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-md-12">
+	            	<h4>Upload CV file</h4>
+	            	<form method="POST" action="" enctype="multipart/form-data">
+	            		<div>
+	            			<div class="form-label-group">
+	            				{{ cvform.cv_file(class="form-control-file") }}
+	            				{% if cvform.cv_file.errors %}
+	            					{% for error in cvform.cv_file.errors %}
+	            						<span class="text-danger">{{ error }}</span></br>
+	            					{% endfor %}
+	            				{% endif %}
+	            			</div>
+	            			<hr>
+	            			{{ cvform.submit(class="btn btn-lg btn-primary btn-block text-uppercase") }}
+	            		</div>
+	            	</form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div style="display: none;" id="addImage" enctype="multipart/form-data">
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-md-12">
+	            	<h4>Upload CV file</h4>
+	            	<form method="POST" action="">
+	            		<div>
+	            			<div class="form-label-group">
+	            				{{ imageform.image_file(class="form-control-file") }}
+	            				{% if imageform.image_file.errors %}
+	            					{% for error in imageform.image_file.errors %}
+	            						<span class="text-danger">{{ error }}</span></br>
+	            					{% endfor %}
+	            				{% endif %}
+	            			</div>
+	            			<hr>
+	            			{{ imageform.submit(class="btn btn-lg btn-primary btn-block text-uppercase") }}
+	            		</div>
+	            	</form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div style="display: none;" id="addDesc">
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-md-12">
+	                <h4>About Me</h4>
+	                <form id="aboutform" method="POST" action="">
+						<div class="form-group">
+							{{ aboutform.self_desc.label(class="form-control-label") }}
+
+							{% if aboutform.self_desc.errors %}
+								{{ aboutform.self_desc(class="form-control form-control-lg is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in aboutform.self_desc.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ aboutform.self_desc(class="form-control form-control-lg") }}
+							{% endif %}
+						</div>
+						<hr>
+						{{ aboutform.submit(id="submitbutton", class="btn btn-lg btn-primary btn-block text-uppercase") }}
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div style="display: none;" id="addDegree">
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-md-5">
+	                <h2>Online Market</h2>
+	                <p>Personal project of building a free online market using Flask as framework.</p>       
+	                
+	                <p>Second Paragraph if need be.</p>      
+	                <div class="mh-about-tag">
+	                    <ul>
+	                        <li><span>html</span></li>
+	                        <li><span>css</span></li>
+	                        <li><span>javascript</span></li>
+	                        <li><span>python</span></li>
+	                        <li><span>flask</span></li>
+	                    </ul>
+	                </div>
+	                <a href="" class="btn btn-fill">Go to Website</a>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
 
 
 
 {% endblock content %}
+
+{% block js %}
+
+	<script type="text/javascript" src="{{ url_for('static', filename='javascript/account.js') }}"></script>
+
+	<!-- Fancybox -->
+	<script type="text/javascript" src="{{ url_for('static', filename='javascript/jquery.fancybox.min.js') }}"></script>
+
+{% endblock %}

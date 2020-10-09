@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from flask_wtf.file import FileField, FileAllowed
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from donationsite.models import User
 
@@ -25,6 +26,33 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember me')
     submit = SubmitField('Login')
+
+
+class AddCVForm(FlaskForm):
+    cv_file = FileField('Add CV', validators=[
+                        FileAllowed(['doc', 'docx', 'pdf'])])
+    submit = SubmitField('Upload')
+
+
+class AddImageForm(FlaskForm):
+    image_file = FileField('Update Profile Picture', validators=[
+                           FileAllowed(['jpg', 'png'])])
+    submit = SubmitField('Upload')
+
+
+class AddAboutForm(FlaskForm):
+    self_desc = StringField('About', validators=[
+                            DataRequired(), Length(max=240)])
+    submit = SubmitField('Save')
+
+
+class AddDegreeForm(FlaskForm):
+    title = StringField('Degree Title', validators=[
+                        DataRequired(), Length(min=5, max=120)])
+    institution = StringField('Institution', validators=[
+                              DataRequired(), Length(min=5, max=120)])
+    grad_year = StringField('Graduation Year', validators=[
+                            DataRequired(), Length(min=4, max=4)])
 
 
 class BankDetailForm(FlaskForm):

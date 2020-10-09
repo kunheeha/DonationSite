@@ -1,8 +1,11 @@
+import os
+import secrets
+import random
 from flask import render_template, request, url_for, flash, redirect
 from donationsite import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_user import roles_required
-from donationsite.forms import RegistrationForm, LoginForm
+from donationsite.forms import RegistrationForm, LoginForm, AddCVForm, AddImageForm, AddAboutForm, AddDegreeForm
 from donationsite.models import User, Role, UserRoles, Degree, UserDegree, Bankdetails, UserBankdetails
 
 
@@ -50,16 +53,46 @@ def register():
         return redirect(url_for('account'))
     return render_template("register.html", title='Register', form=form)
 
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
 
 @app.route('/profile')
 def profile():
     return render_template("profile.html")
 
 
-@app.route('/account')
+def save_cv(form_cv):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_cv.filename)
+    cv_fn = random_hex + f_ext
+    cv_path = os.path.join(app.root_path, 'static/cvfiles', cv_fn)
+    form_cv.save(cv_path)
+
+    return cv_fn
+
+
+@app.route('/account', methods=['GET', 'POST'])
+@login_required
 def account():
-    return render_template("account.html")
+    cvform = AddCVForm()
+    imageform = AddImageForm()
+    aboutform = AddAboutForm()
+
+    if aboutform.validate_on_submit():
+        about = aboutform.self_desc.data
+        current_user.self_desc = about
+        db.session.commit()
+    elif request.method == 'GET':
+        aboutform.self_desc.data = current_user.self_desc
+
+    if cvform.validate_on_submit():
+        if cvform.cv_file.data:
+            cv = save_cv(cvform.cv_file.data)
+            current_user.cv_file = cv
+            db.session.commit()
+            flash('Your CV has been uploaded', 'success')
+    return render_template("account.html", cvform=cvform, imageform=imageform, aboutform=aboutform)
