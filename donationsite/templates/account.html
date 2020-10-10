@@ -62,7 +62,7 @@
 						<div class="card-body">
 							<h3 class="card-title">Your Bank Details</h3>
 							<p class="card-text">Your account number and sortcode</p>
-							<small><a href="#">Edit</a></small>
+							<small><a href="{{ url_for('bankdetails') }}">Edit</a></small>
 						</div>
 					</div>
 				</div>
@@ -92,7 +92,8 @@
 	            	<h4>Upload CV file</h4>
 	            	<form method="POST" action="" enctype="multipart/form-data">
 	            		<div>
-	            			<div class="form-label-group">
+	            			<div class="form-group">
+	            				{{ cvform.csrf_token }}
 	            				{{ cvform.cv_file(class="form-control-file") }}
 	            				{% if cvform.cv_file.errors %}
 	            					{% for error in cvform.cv_file.errors %}
@@ -115,7 +116,8 @@
 	            	<h4>Upload CV file</h4>
 	            	<form method="POST" action="">
 	            		<div>
-	            			<div class="form-label-group">
+	            			<div class="form-group">
+	            				{{ imageform.csrf_token }}
 	            				{{ imageform.image_file(class="form-control-file") }}
 	            				{% if imageform.image_file.errors %}
 	            					{% for error in imageform.image_file.errors %}
@@ -138,7 +140,7 @@
 	                <h4>About Me</h4>
 	                <form id="aboutform" method="POST" action="">
 						<div class="form-group">
-							{{ aboutform.self_desc.label(class="form-control-label") }}
+							{{ aboutform.csrf_token }}
 
 							{% if aboutform.self_desc.errors %}
 								{{ aboutform.self_desc(class="form-control form-control-lg is-invalid") }}
@@ -158,24 +160,60 @@
 	        </div>
 	    </div>
 	</div>
+
 	<div style="display: none;" id="addDegree">
 	    <div class="container">
 	        <div class="row">
-	            <div class="col-md-5">
-	                <h2>Online Market</h2>
-	                <p>Personal project of building a free online market using Flask as framework.</p>       
-	                
-	                <p>Second Paragraph if need be.</p>      
-	                <div class="mh-about-tag">
-	                    <ul>
-	                        <li><span>html</span></li>
-	                        <li><span>css</span></li>
-	                        <li><span>javascript</span></li>
-	                        <li><span>python</span></li>
-	                        <li><span>flask</span></li>
-	                    </ul>
-	                </div>
-	                <a href="" class="btn btn-fill">Go to Website</a>
+	            <div class="col-md-12">
+	                <h4>My Degree</h4>
+	                <form id="aboutform" method="POST" action="">
+	                	{{ degreeform.csrf_token }}
+						<div class="form-group">
+							
+							{{ degreeform.title.label(class="form-control-label") }}
+
+							{% if degreeform.title.errors %}
+								{{ degreeform.title(class="form-control form-control-lg is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in degreeform.title.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ degreeform.title(class="form-control form-control-lg") }}
+							{% endif %}
+						</div>
+						<div class="form-group">
+							{{ degreeform.institution.label(class="form-control-label") }}
+
+							{% if degreeform.institution.errors %}
+								{{ degreeform.institution(class="form-control form-control-lg is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in degreeform.institution.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ degreeform.institution(class="form-control form-control-lg") }}
+							{% endif %}
+						</div>
+						<div class="form-group">
+							{{ degreeform.grad_year.label(class="form-control-label") }}
+
+							{% if degreeform.grad_year.errors %}
+								{{ degreeform.grad_year(class="form-control form-control-lg is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in degreeform.grad_year.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ degreeform.grad_year(class="form-control form-control-lg") }}
+							{% endif %}
+						</div>
+						<hr>
+						{{ degreeform.submit(id="submitbutton", class="btn btn-lg btn-primary btn-block text-uppercase") }}
+	                </form>
 	            </div>
 	        </div>
 	    </div>

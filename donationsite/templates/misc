@@ -1,0 +1,73 @@
+<!-- 	<div style="display: none;" id="addCV">
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-md-12">
+	            	<h4>Upload CV file</h4>
+	            	<form method="POST" action="" enctype="multipart/form-data">
+	            		<div>
+	            			<div class="form-label-group">
+	            				{{ cvform.cv_file(class="form-control-file") }}
+	            				{% if cvform.cv_file.errors %}
+	            					{% for error in cvform.cv_file.errors %}
+	            						<span class="text-danger">{{ error }}</span></br>
+	            					{% endfor %}
+	            				{% endif %}
+	            			</div>
+	            			<hr>
+	            			{{ cvform.submit(class="btn btn-lg btn-primary btn-block text-uppercase") }}
+	            		</div>
+	            	</form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div style="display: none;" id="addImage" enctype="multipart/form-data">
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-md-12">
+	            	<h4>Upload CV file</h4>
+	            	<form method="POST" action="">
+	            		<div>
+	            			<div class="form-label-group">
+	            				{{ imageform.image_file(class="form-control-file") }}
+	            				{% if imageform.image_file.errors %}
+	            					{% for error in imageform.image_file.errors %}
+	            						<span class="text-danger">{{ error }}</span></br>
+	            					{% endfor %}
+	            				{% endif %}
+	            			</div>
+	            			<hr>
+	            			{{ imageform.submit(class="btn btn-lg btn-primary btn-block text-uppercase") }}
+	            		</div>
+	            	</form>
+	            </div>
+	        </div>
+	    </div>
+	</div> -->
+<!-- 	<div style="display: none;" id="addDesc">
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-md-12">
+	                <h4>About Me</h4>
+	                <form id="aboutform" method="POST" action="">
+						<div class="form-group">
+							{{ aboutform.self_desc.label(class="form-control-label") }}
+
+							{% if aboutform.self_desc.errors %}
+								{{ aboutform.self_desc(class="form-control form-control-lg is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in aboutform.self_desc.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ aboutform.self_desc(class="form-control form-control-lg") }}
+							{% endif %}
+						</div>
+						<hr>
+						{{ aboutform.submit(id="submitbutton", class="btn btn-lg btn-primary btn-block text-uppercase") }}
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+	</div> -->

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField
 from flask_wtf.file import FileField, FileAllowed
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from donationsite.models import User
@@ -42,7 +42,7 @@ class AddImageForm(FlaskForm):
 
 class AddAboutForm(FlaskForm):
     self_desc = StringField('About', validators=[
-                            DataRequired(), Length(max=240)])
+                            DataRequired()])
     submit = SubmitField('Save')
 
 
@@ -53,12 +53,14 @@ class AddDegreeForm(FlaskForm):
                               DataRequired(), Length(min=5, max=120)])
     grad_year = StringField('Graduation Year', validators=[
                             DataRequired(), Length(min=4, max=4)])
+    submit = SubmitField('Save')
 
 
 class BankDetailForm(FlaskForm):
     account_holder = StringField('Account Holder', validators=[
                                  DataRequired(), Length(min=2, max=30)])
-    account_number = StringField('Account Number', validators=[
-                                 DataRequired(), Length(min=8)])
-    sortcode = StringField('Sort Code', validators=[
-                           DataRequired(), Length(min=6)])
+    account_number = IntegerField('Account Number', validators=[
+        DataRequired()])
+    sortcode = IntegerField('Sort Code', validators=[
+        DataRequired()])
+    submit = SubmitField('Save')
