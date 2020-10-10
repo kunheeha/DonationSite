@@ -10,9 +10,25 @@ from donationsite.forms import RegistrationForm, LoginForm, AddCVForm, AddImageF
 from donationsite.models import User, Role, UserRoles, Degree, UserDegree, Bankdetails, UserBankdetails
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("index.html")
+    grads = User.query.all()
+
+    if request.method == 'POST':
+        received = request.form['gradId']
+        global gradid
+        gradid = int(received)
+
+    return render_template("index.html", grads=grads)
+
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    grad = User.query.filter_by(id=gradid).first()
+    image_file = url_for(
+        'static', filename='profilepics/' + grad.image_file)
+
+    return render_template('profile.html', grad=grad, image_file=image_file)
 
 
 @app.route('/makedonation')
@@ -59,11 +75,6 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
-
-@app.route('/profile')
-def profile():
-    return render_template("profile.html")
 
 
 def save_cv(form_cv):
@@ -134,7 +145,10 @@ def account():
     elif request.method == 'GET':
         pass
 
-    return render_template("account.html", aboutform=aboutform, cvform=cvform, imageform=imageform, degreeform=degreeform)
+    image_file = url_for(
+        'static', filename='profilepics/' + current_user.image_file)
+
+    return render_template("account.html", aboutform=aboutform, cvform=cvform, imageform=imageform, degreeform=degreeform, image_file=image_file)
 
 
 @app.route('/bankdetails', methods=['GET', 'POST'])
