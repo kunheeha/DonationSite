@@ -28,7 +28,15 @@ def profile():
     image_file = url_for(
         'static', filename='profilepics/' + grad.image_file)
 
-    return render_template('profile.html', grad=grad, image_file=image_file)
+    viewcvform = ViewCVForm()
+    if viewcvform.validate_on_submit():
+        cvgradid = viewcvform.graduate.data
+        cvgrad = User.query.filter_by(id=cvgradid).first()
+        cvfile = cvgrad.cv_file
+        cvfiles = os.path.join(app.root_path, 'static/cvfiles')
+        return send_from_directory(directory=cvfiles, filename=cvfile)
+
+    return render_template('profile.html', grad=grad, image_file=image_file, viewcvform=viewcvform)
 
 
 @app.route('/makedonation')

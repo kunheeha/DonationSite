@@ -70,8 +70,15 @@
 				<div class="row">
 					<div class="col-md-12 card">
 						<div class="card-body">
-							<h3 class="card-title">Your Bank Details</h3>
-							<p class="card-text">Your account number and sortcode</p>
+							{% if not current_user.bank_details %}
+								<h3 class="card-title">Your Bank Details</h3>
+								<p class="card-text">Your account number and sortcode</p>
+							{% elif current_user.bank_details %}
+								<h3 class="card-title">Bank Details</h3><br>
+								<p class="card-text">Account Holder : {{ current_user.bank_details[0].account_holder }}</p><br>
+								<p class="card-text">Account Number : {{ current_user.bank_details[0].account_number }}</p><br>
+								<p class="card-text">Sort Code : {{ current_user.bank_details[0].sort_code }}</p>
+							{% endif %}
 							<small><a href="{{ url_for('bankdetails') }}">Edit</a></small>
 						</div>
 					</div>
@@ -84,8 +91,13 @@
 					<div class="col-md-12">
 						<div class="card degree">
 							<div class="card-body">
-								<h4 class="card-title">Your Degree Title</h4>
-								<p class="card-text">Institution<br>Graduated year</p>
+								{% if not current_user.degree %}
+									<h4 class="card-title">Your Degree Title</h4>
+									<p class="card-text">Institution<br>Graduated year</p>
+								{% elif current_user.degree %}
+									<h4 class="card-title">{{ current_user.degree[0].title }}</h4>
+									<p class="card-text">{{ current_user.degree[0].institution }}<br><small><i>graduated in {{ current_user.degree[0].grad_year }}</i></small></p>
+								{% endif %}
 								<small><a data-fancybox data-src='#addDegree' href="">Edit</a></small>
 							</div>
 						</div>

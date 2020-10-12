@@ -35,7 +35,13 @@
 						<p>{{ grad.self_desc }}</p>
 						<div class="row">
 							<div class="col-md-6">
-								<small><a href="">Download CV</a></small>
+								{% if grad.cv_file %}
+								<form method="POST" action="">
+									{{ viewcvform.csrf_token }}
+									{{ viewcvform.graduate(style="display:none;", value=grad.id) }}
+									<small>{{ viewcvform.submit(class="looklikelink") }}</small>
+								</form>
+								{% endif %}
 							</div>
 						</div>
 					</div>
@@ -48,8 +54,13 @@
 					<div class="col-md-12">
 						<div class="card degree">
 							<div class="card-body">
+								{% if not grad.degree %}
 								<h4 class="card-title">Your Degree Title</h4>
 								<p class="card-text">Institution<br>Graduated year</p>
+								{% elif grad.degree %}
+									<h4 class="card-title">{{ grad.degree[0].title }}</h4>
+									<p class="card-text">{{ grad.degree[0].institution }}<br><small><i>graduated in {{ grad.degree[0].grad_year }}</i></small></p>
+								{% endif %}
 							</div>
 						</div>
 					</div>
