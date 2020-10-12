@@ -55,6 +55,8 @@
 										{{ viewcvform.csrf_token }}
 										{{ viewcvform.graduate(style="display:none;", value=current_user.id) }}
 										<small>{{ viewcvform.submit(class="looklikelink") }}</small>
+										<br>
+										<small><a data-fancybox data-src='#addCV' href="">Update CV</a></small>
 									</form>
 								{% endif %}
 							</div>

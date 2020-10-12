@@ -111,11 +111,22 @@ def account():
     viewcvform = ViewCVForm()
 
     if cvform.validate_on_submit():
-        if cvform.cv_file.data:
-            cv = save_cv(cvform.cv_file.data)
-            current_user.cv_file = cv
-            db.session.commit()
-            flash('Your CV has been uploaded', 'success')
+        if not current_user.cv_file:
+            if cvform.cv_file.data:
+                cv = save_cv(cvform.cv_file.data)
+                current_user.cv_file = cv
+                db.session.commit()
+                flash('Your CV has been uploaded', 'success')
+        elif current_user.cv_file:
+            if cvform.cv_file.data:
+                cvfilename = current_user.cv_file
+                path = os.path.join(
+                    app.root_path, 'static/cvfiles', cvfilename)
+                os.remove(path)
+                cv = save_cv(cvform.cv_file.data)
+                current_user.cv_file = cv
+                db.session.commit()
+                flash('Your CV has been uploaded', 'success')
 
     if imageform.validate_on_submit():
         if imageform.image_file.data:
