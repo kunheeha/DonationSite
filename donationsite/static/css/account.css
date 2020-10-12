@@ -81,3 +81,18 @@
   font-size: 12px;
   color: #777;
 }
+
+.looklikelink {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #1584FF;
+  cursor: pointer;
+}
+
+.looklikelink:hover {
+  text-decoration: underline;
+}

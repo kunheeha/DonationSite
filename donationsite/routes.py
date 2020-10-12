@@ -2,11 +2,11 @@ import os
 import secrets
 import random
 from PIL import Image
-from flask import render_template, request, url_for, flash, redirect, jsonify
+from flask import render_template, request, url_for, flash, redirect, jsonify, send_from_directory
 from donationsite import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_user import roles_required
-from donationsite.forms import RegistrationForm, LoginForm, AddCVForm, AddImageForm, AddDegreeForm, AddAboutForm, BankDetailForm
+from donationsite.forms import RegistrationForm, LoginForm, AddCVForm, AddImageForm, AddDegreeForm, AddAboutForm, BankDetailForm, ViewCVForm
 from donationsite.models import User, Role, UserRoles, Degree, UserDegree, Bankdetails, UserBankdetails
 
 
@@ -64,8 +64,9 @@ def register():
                     password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash(f'Account created for {form.name.data}', 'success')
-        return redirect(url_for('account'))
+        flash(
+            f'Account created for {form.name.data}, please log in', 'success')
+        return redirect(url_for('login'))
     return render_template("register.html", title='Register', form=form)
 
 
@@ -107,6 +108,7 @@ def account():
     imageform = AddImageForm()
     aboutform = AddAboutForm()
     degreeform = AddDegreeForm()
+    viewcvform = ViewCVForm()
 
     if cvform.validate_on_submit():
         if cvform.cv_file.data:
@@ -127,7 +129,8 @@ def account():
         db.session.commit()
         flash('Profile updated', 'success')
     elif request.method == 'GET':
-        aboutform.self_desc.data = current_user.self_desc
+        if current_user.self_desc:
+            aboutform.self_desc.data = current_user.self_desc
 
     if degreeform.validate_on_submit():
         degree = Degree(title=degreeform.title.data,
@@ -141,12 +144,23 @@ def account():
         db.session.commit()
         flash('Your degree has been updated', 'success')
     elif request.method == 'GET':
-        pass
+        if current_user.degree != []:
+            usrdegree = current_user.degree[0]
+            degreeform.title.data = usrdegree.title
+            degreeform.institution.data = usrdegree.institution
+            degreeform.grad_year.data = usrdegree.grad_year
+
+    if viewcvform.validate_on_submit():
+        cvgradid = viewcvform.graduate.data
+        cvgrad = User.query.filter_by(id=cvgradid).first()
+        cvfile = cvgrad.cv_file
+        cvfiles = os.path.join(app.root_path, 'static/cvfiles')
+        return send_from_directory(directory=cvfiles, filename=cvfile)
 
     image_file = url_for(
         'static', filename='profilepics/' + current_user.image_file)
 
-    return render_template("account.html", aboutform=aboutform, cvform=cvform, imageform=imageform, degreeform=degreeform, image_file=image_file)
+    return render_template("account.html", aboutform=aboutform, cvform=cvform, imageform=imageform, degreeform=degreeform, image_file=image_file, viewcvform=viewcvform)
 
 
 @app.route('/bankdetails', methods=['GET', 'POST'])
@@ -167,6 +181,13 @@ def bankdetails():
         db.session.commit()
         flash('Your bank details have been updated', 'success')
         return redirect(url_for('account'))
+
+    elif request.method == 'GET':
+        if current_user.bank_details != []:
+            userbank = current_user.bank_details[0]
+            form.account_holder.data = userbank.account_holder
+            form.account_number.data = userbank.account_number
+            form.sortcode.data = userbank.sort_code
 
     return render_template('bankdetails.html', form=form)
 

@@ -48,7 +48,15 @@
 						<p>{{ current_user.self_desc }}</p>
 						<div class="row">
 							<div class="col-md-6">
-								<small><a data-fancybox data-src='#addCV' href="">Add CV</a></small>
+								{% if not current_user.cv_file %}
+									<small><a data-fancybox data-src='#addCV' href="">Add CV</a></small>
+								{% elif current_user.cv_file %}
+									<form method="POST" action="">
+										{{ viewcvform.csrf_token }}
+										{{ viewcvform.graduate(style="display:none;", value=current_user.id) }}
+										<small>{{ viewcvform.submit(class="looklikelink") }}</small>
+									</form>
+								{% endif %}
 							</div>
 							<div class="col-md-6 text-right">
 								<small><a data-fancybox data-src='#addDesc' href="">Edit</a></small>
