@@ -41,7 +41,13 @@ def profile():
 
 @app.route('/makedonation')
 def makedonation():
-    return render_template("makedonation.html")
+    grads = User.query.all()
+
+    return render_template("makedonation.html", grads=grads)
+
+@app.route('/donate')
+def donate():
+    return render_template("donate.html")
 
 
 @app.route('/login', methods=['GET', 'POST'])
