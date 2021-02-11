@@ -33,21 +33,21 @@
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="{{ url_for('makedonation') }}">Make a Donation</a>
+							<a class="nav-link" href="{{ url_for('donations.makedonation') }}">Make a Donation</a>
 						</li>
 						{% if current_user.is_authenticated %}
 						<li class="nav-item">
-								<a class="nav-link" href="{{ url_for('account') }}">Account</a>
+								<a class="nav-link" href="{{ url_for('accounts.account') }}">Account</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+								<a class="nav-link" href="{{ url_for('accounts.logout') }}">Logout</a>
 							</li>
 						{% else %}
 							<li class="nav-item">
-								<a class="nav-link" href="{{ url_for('register') }}">Register</a>
+								<a class="nav-link" href="{{ url_for('accounts.register') }}">Register</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="{{ url_for('login') }}">Login</a>
+								<a class="nav-link" href="{{ url_for('accounts.login') }}">Login</a>
 							</li>
 						{% endif %}
 					</ul>

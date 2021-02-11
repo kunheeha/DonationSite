@@ -1,75 +1,35 @@
+from flask import Blueprint, render_template, request, url_for, flash, redirect, jsonify, send_from_directory, current_app
 import os
-import secrets
-import random
-from PIL import Image
-from flask import render_template, request, url_for, flash, redirect, jsonify, send_from_directory
-from donationsite import app, db, bcrypt
+from donationsite import db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
-from flask_user import roles_required
-from donationsite.forms import RegistrationForm, LoginForm, AddCVForm, AddImageForm, AddDegreeForm, AddAboutForm, BankDetailForm, ViewCVForm
-from donationsite.models import User, Role, UserRoles, Degree, UserDegree, Bankdetails, UserBankdetails
+from donationsite.models import User, Degree, UserDegree, Bankdetails, UserBankdetails
+from donationsite.accounts.forms import RegistrationForm, LoginForm, AddCVForm, AddImageForm, AddAboutForm, AddDegreeForm, BankDetailForm, ViewCVForm
+from donationsite.accounts.utils import save_cv, save_image
 
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    grads = User.query.all()
-
-    if request.method == 'POST':
-        received = request.form['gradId']
-        global gradid
-        gradid = int(received)
-
-    return render_template("index.html", grads=grads)
+accounts = Blueprint('accounts', __name__)
 
 
-@app.route('/profile', methods=['GET', 'POST'])
-def profile():
-    grad = User.query.filter_by(id=gradid).first()
-    image_file = url_for(
-        'static', filename='profilepics/' + grad.image_file)
-
-    viewcvform = ViewCVForm()
-    if viewcvform.validate_on_submit():
-        cvgradid = viewcvform.graduate.data
-        cvgrad = User.query.filter_by(id=cvgradid).first()
-        cvfile = cvgrad.cv_file
-        cvfiles = os.path.join(app.root_path, 'static/cvfiles')
-        return send_from_directory(directory=cvfiles, filename=cvfile)
-
-    return render_template('profile.html', grad=grad, image_file=image_file, viewcvform=viewcvform)
-
-
-@app.route('/makedonation')
-def makedonation():
-    grads = User.query.all()
-
-    return render_template("makedonation.html", grads=grads)
-
-@app.route('/donate')
-def donate():
-    return render_template("donate.html")
-
-
-@app.route('/login', methods=['GET', 'POST'])
+@accounts.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('account'))
+        return redirect(url_for('accounts.account'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('account'))
+            return redirect(url_for('accounts.account'))
 
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template("login.html", title='Login', form=form)
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@accounts.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('account'))
+        return redirect(url_for('accounts.account'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(
@@ -80,42 +40,17 @@ def register():
         db.session.commit()
         flash(
             f'Account created for {form.name.data}, please log in', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('accounts.login'))
     return render_template("register.html", title='Register', form=form)
 
 
-@app.route('/logout')
+@accounts.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('accounts.login'))
 
 
-def save_cv(form_cv):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_cv.filename)
-    cv_fn = random_hex + f_ext
-    cv_path = os.path.join(app.root_path, 'static/cvfiles', cv_fn)
-    form_cv.save(cv_path)
-
-    return cv_fn
-
-
-def save_image(form_image):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_image.filename)
-    picture_fn = random_hex + f_ext
-    picture_path = os.path.join(
-        app.root_path, 'static/profilepics', picture_fn)
-    output_size = (130, 130)
-    i = Image.open(form_image)
-    i.thumbnail(output_size)
-
-    i.save(picture_path)
-
-    return picture_fn
-
-
-@app.route('/account', methods=['GET', 'POST'])
+@accounts.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
     cvform = AddCVForm()
@@ -135,12 +70,12 @@ def account():
             if cvform.cv_file.data:
                 cvfilename = current_user.cv_file
                 path = os.path.join(
-                    app.root_path, 'static/cvfiles', cvfilename)
+                    current_app.root_path, 'static/cvfiles', cvfilename)
                 os.remove(path)
                 cv = save_cv(cvform.cv_file.data)
                 current_user.cv_file = cv
                 db.session.commit()
-                flash('Your CV has been uploaded', 'success')
+                flash('Your CV has been updated', 'success')
 
     if imageform.validate_on_submit():
         if imageform.image_file.data:
@@ -179,7 +114,7 @@ def account():
         cvgradid = viewcvform.graduate.data
         cvgrad = User.query.filter_by(id=cvgradid).first()
         cvfile = cvgrad.cv_file
-        cvfiles = os.path.join(app.root_path, 'static/cvfiles')
+        cvfiles = os.path.join(current_app.root_path, 'static/cvfiles')
         return send_from_directory(directory=cvfiles, filename=cvfile)
 
     image_file = url_for(
@@ -188,7 +123,7 @@ def account():
     return render_template("account.html", aboutform=aboutform, cvform=cvform, imageform=imageform, degreeform=degreeform, image_file=image_file, viewcvform=viewcvform)
 
 
-@app.route('/bankdetails', methods=['GET', 'POST'])
+@accounts.route('/bankdetails', methods=['GET', 'POST'])
 def bankdetails():
     form = BankDetailForm()
 
@@ -196,7 +131,8 @@ def bankdetails():
         accountNumber = str(form.account_number.data)
         sortCode = str(form.sortcode.data)
         bank = Bankdetails(account_holder=form.account_holder.data,
-                           account_number=accountNumber, sort_code=sortCode)
+                           account_number=accountNumber,
+                           sort_code=sortCode)
         db.session.add(bank)
         db.session.commit()
         usrbank = Bankdetails.query.filter_by(
@@ -205,7 +141,7 @@ def bankdetails():
         current_user.bank_details.append(usrbank)
         db.session.commit()
         flash('Your bank details have been updated', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for('accounts.account'))
 
     elif request.method == 'GET':
         if current_user.bank_details != []:
@@ -215,16 +151,3 @@ def bankdetails():
             form.sortcode.data = userbank.sort_code
 
     return render_template('bankdetails.html', form=form)
-
-
-@app.route('/testing', methods=['GET', 'POST'])
-def testing():
-    form = AddAboutForm()
-
-    if form.validate_on_submit():
-        desc = form.self_desc.data
-        current_user.self_desc = desc
-        db.session.add(current_user)
-        db.session.commit()
-
-    return render_template('testing.html', form=form)

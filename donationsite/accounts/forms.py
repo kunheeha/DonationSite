@@ -65,6 +65,7 @@ class BankDetailForm(FlaskForm):
         DataRequired()])
     submit = SubmitField('Save')
 
+
 class ViewCVForm(FlaskForm):
     graduate = IntegerField('graduate', validators=[DataRequired()])
     submit = SubmitField('View CV')

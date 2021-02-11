@@ -80,8 +80,8 @@ class Bankdetails(db.Model):
     __tablename__ = 'bankdetails'
     id = db.Column(db.Integer(), primary_key=True)
     account_holder = db.Column(db.String(30), nullable=False)
-    account_number = db.Column(db.String(10), unique=True, nullable=False)
-    sort_code = db.Column(db.String(10), unique=True, nullable=False)
+    account_number = db.Column(db.String(10), nullable=False)
+    sort_code = db.Column(db.String(10), nullable=False)
 
     def __repr__(self):
         return f"Bankdetails('{self.account_holder}')"

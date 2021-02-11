@@ -79,7 +79,7 @@
 								<p class="card-text">Account Number : {{ current_user.bank_details[0].account_number }}</p><br>
 								<p class="card-text">Sort Code : {{ current_user.bank_details[0].sort_code }}</p>
 							{% endif %}
-							<small><a href="{{ url_for('bankdetails') }}">Edit</a></small>
+							<small><a href="{{ url_for('accounts.bankdetails') }}">Edit</a></small>
 						</div>
 					</div>
 				</div>
