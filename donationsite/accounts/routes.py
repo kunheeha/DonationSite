@@ -3,8 +3,10 @@ import os
 from donationsite import db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 from donationsite.models import User, Degree, UserDegree, Bankdetails, UserBankdetails
-from donationsite.accounts.forms import RegistrationForm, LoginForm, AddCVForm, AddImageForm, AddAboutForm, AddDegreeForm, BankDetailForm, ViewCVForm
-from donationsite.accounts.utils import save_cv, save_image
+from donationsite.accounts.forms import (RegistrationForm, LoginForm, AddCVForm, AddImageForm,
+                                         AddAboutForm, AddDegreeForm, BankDetailForm, ViewCVForm,
+                                         RequestResetForm, ResetPasswordForm)
+from donationsite.accounts.utils import save_cv, save_image, send_reset_email
 
 
 accounts = Blueprint('accounts', __name__)
@@ -120,7 +122,8 @@ def account():
     image_file = url_for(
         'static', filename='profilepics/' + current_user.image_file)
 
-    return render_template("account.html", aboutform=aboutform, cvform=cvform, imageform=imageform, degreeform=degreeform, image_file=image_file, viewcvform=viewcvform)
+    return render_template("account.html", aboutform=aboutform, cvform=cvform, imageform=imageform,
+                           degreeform=degreeform, image_file=image_file, viewcvform=viewcvform)
 
 
 @accounts.route('/bankdetails', methods=['GET', 'POST'])
@@ -151,3 +154,38 @@ def bankdetails():
             form.sortcode.data = userbank.sort_code
 
     return render_template('bankdetails.html', form=form)
+
+
+@accounts.route('/forgotpass', methods=['POST', 'GET'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('accounts.account'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('Email has been sent to reset your password', 'success')
+        return redirect(url_for('accounts.login'))
+
+
+    return render_template('forgotpass.html', form=form)
+
+
+@accounts.route('/resetpassword/<token>', methods=['POST', 'GET'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('accounts.account'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('Invalid or Expired link', 'warning')
+        return redirect(url_for('accounts.reset_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(
+            form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash(
+            f'Password has been updated, please log in', 'success')
+        return redirect(url_for('accounts.login'))
+    return render_template('resetpass.html', form=form)

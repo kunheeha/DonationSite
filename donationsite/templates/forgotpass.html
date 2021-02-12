@@ -20,7 +20,7 @@
 					</div>
 
 					<div class="card-body">
-						<h5 class="card-title text-center">Log In</h5>
+						<h5 class="card-title text-center">Request Password Reset</h5>
 						<div>
 							{% with messages = get_flashed_messages(with_categories=true) %}
 								{% if messages %}
@@ -48,30 +48,11 @@
 									<label for="inputEmail">Email</label>
 									{% endif %}
 								</div>
-								
-								<div class="form-label-group">
-									{% if form.password.errors %}
-										{{ form.password(id="inputPassword", class="form-control is-invalid", placeholder="Password") }}
-										<div class="invalid-feedback">
-											{% for error in form.password.errors %}
-												<span>{{ error }}</span>
-											{% endfor %}
-										</div>
-									{% else %}
-									{{ form.password(id="inputPassword", class="form-control", placeholder="Password") }}
-									<label for="inputPassword">Password</label>
-									{% endif %}
-								</div>
-								<div class="form-check small" align="center">
-									{{ form.remember(class="form-check-input") }}
-									{{ form.remember.label(class="form-check-label") }}
-								</div>
 								<hr>
 								{{ form.submit(class="btn btn-lg btn-primary btn-block text-uppercase") }}
-								<a class="btn btn-lg btn-linkedin btn-block text-uppercase"><i class="fab fa-linkedin-f mr-2"></i> Log in with LinkedIn</a>
 								<hr class="my-4">
 								<p class="d-block text-center mt-2 small">Don't have an account? <a href="/register">Sign Up</a></p>
-								<p class="d-block text-center mt-2 small">Forgot password? <a href="/forgotpass">Reset Password</a></p>
+								<p class="d-block text-center mt-2 small"><a href="/login">Login</a></p>
 							</div>
 						</form>
 					</div>

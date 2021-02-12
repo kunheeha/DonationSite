@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, current_user, UserMixin
 from flask_admin import Admin, AdminIndexView
+from flask_mail import Mail
 from donationsite.config import Config
 
 
@@ -19,6 +20,7 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 admin = Admin(index_view=MyAdminIndexView())
+mail = Mail()
 
 stripe_keys = {
     "publishable_key": os.environ.get("STRIPE_PUBLISHABLE_KEY"),
@@ -34,6 +36,7 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     admin.init_app(app)
+    mail.init_app(app)
 
     from donationsite.accounts.routes import accounts
     from donationsite.donations.routes import donations
