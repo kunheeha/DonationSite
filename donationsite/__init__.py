@@ -5,7 +5,6 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, current_user, UserMixin
 from flask_admin import Admin, AdminIndexView
 from donationsite.config import Config
-import stripe
 
 
 class MyAdminIndexView(AdminIndexView):
@@ -25,8 +24,6 @@ stripe_keys = {
     "publishable_key": os.environ.get("STRIPE_PUBLISHABLE_KEY"),
     "secret_key": os.environ.get("STRIPE_SECRET_KEY")
 }
-
-stripe.api_key = stripe_keys["secret_key"]
 
 
 def create_app(config_class=Config):
