@@ -6,6 +6,7 @@ from flask_login import LoginManager, current_user, UserMixin
 from flask_admin import Admin, AdminIndexView
 from flask_mail import Mail
 from donationsite.config import Config
+from flask_migrate import Migrate
 
 
 class MyAdminIndexView(AdminIndexView):
@@ -17,6 +18,7 @@ class MyAdminIndexView(AdminIndexView):
 
 
 db = SQLAlchemy()
+migrate = Migrate()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 admin = Admin(index_view=MyAdminIndexView())
@@ -33,6 +35,7 @@ def create_app(config_class=Config):
     app.config.from_object(Config)
 
     db.init_app(app)
+    migrate.init_app(app, db)
     bcrypt.init_app(app)
     login_manager.init_app(app)
     admin.init_app(app)

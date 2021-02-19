@@ -94,9 +94,9 @@ class UserDegree(db.Model):
 class Bankdetails(db.Model):
     __tablename__ = 'bankdetails'
     id = db.Column(db.Integer(), primary_key=True)
-    account_holder = db.Column(db.String(30), nullable=False)
-    account_number = db.Column(db.String(10), nullable=False)
-    sort_code = db.Column(db.String(10), nullable=False)
+    account_holder = db.Column(db.String(30), nullable=False, unique=False)
+    account_number = db.Column(db.String(10), nullable=False, unique=False)
+    sort_code = db.Column(db.String(10), nullable=False, unique=False)
 
     def __repr__(self):
         return f"Bankdetails('{self.account_holder}')"
