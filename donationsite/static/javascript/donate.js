@@ -25,7 +25,7 @@ $(document).ready(function () {
 
 
 
-	$('#checkout-button').on('click', function() {
+	$('.donationButton').on('click', function() {
 		var gradName = $(this).attr('data-gradname');
 		$.ajax({
 			type : 'POST',

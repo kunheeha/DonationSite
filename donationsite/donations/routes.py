@@ -52,9 +52,4 @@ def thanks():
 
 @donations.route('/cancel')
 def cancel():
-    return render_template("donate.html")
-
-
-@donations.route('/donate')
-def donate():
-    return render_template("donate.html")
+    return render_template("cancel.html")

@@ -31,12 +31,12 @@
 				<h2>Donating</h2>
 				<hr>
 				<p>*Insert deep and moving paragraph about the good that donations can do*<br>Spend your hard earned cash on helping lazy jobless graduates do what they do best - nothing. Fund their existence!</p>
-				<a class="btn btn-primary btn-lg" href="/donate">Donate Now &raquo;</a>
+				<a class="btn btn-primary btn-lg" href="{{ url_for('donations.makedonation') }}">Donate Now &raquo;</a>
 			</div>
 			<div class="col-md-4 mb-5">
 				<h2>Are you a Graduate?</h2>
 				<hr>
-				<p>You can get money from randomers for being an absolute nobody with crippling debt and depression.<br>Sign up <a href="{{ url_for('accounts.register') }}">NOW</a></p>
+				<p>You can get money from randomers for being an absolute nobody with crippling debt and no future.<br>Sign up <a href="{{ url_for('accounts.register') }}">NOW</a></p>
 			</div>
 		</div>
 		<!-- Profiles -->
@@ -50,7 +50,7 @@
 						<p class="card-text">{{ grad.self_desc }}</p>
 					</div>
 					<div class="card-footer">
-						<button data-gradid="{{ grad.id }}" class="btn btn-primary donateButton">Donate</button>
+						<button data-gradid="{{ grad.id }}" class="btn btn-primary donateButton">View</button>
 					</div>
 				</div>
 			</div>

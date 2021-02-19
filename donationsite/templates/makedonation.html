@@ -3,6 +3,7 @@
 {% block head %}
 
 	<script src="https://js.stripe.com/v3/"></script>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/donation.css') }}">
 
 {% endblock %}
 
@@ -32,12 +33,11 @@
 						<p class="card-text">{{ grad.self_desc }}</p>
 					</div>
 					<div class="card-footer">
-						<a class="btn btn-primary" id="checkout-button" data-gradname="{{ grad.name }}">Donate</a>
+						<a class="btn btn-primary donationButton" data-gradname="{{ grad.name }}">Donate</a>
 					</div>
 				</div>
 			</div>
 			{% endfor %}
-			<button id="testbutton">Test</button>
 		</div>
 	</div>
 
