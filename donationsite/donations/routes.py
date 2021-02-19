@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, url_for, flash, redirect,
 from donationsite import stripe_keys
 from donationsite.models import User, Bankdetails, UserBankdetails
 import stripe
+from donationsite.donations.utils import donateinfo_email
 
 
 donations = Blueprint('donations', __name__)
@@ -14,11 +15,6 @@ def makedonation():
     return render_template("makedonation.html", grads=grads)
 
 
-# @donations.route('/getkey')
-# def get_publishable_key():
-#     stripe_config = {"publicKey": stripe_keys["publishable_key"]}
-#     return jsonify(stripe_config)
-
 stripe.api_key = stripe_keys['secret_key']
 
 
@@ -30,7 +26,7 @@ def create_checkout_session():
             'price_data': {
                     'currency': 'gbp',
                     'product_data': {
-                                'name': '£5 Donation',
+                                'name': '£5 Donation'
                     },
                     'unit_amount': 500,
                     },
@@ -44,8 +40,13 @@ def create_checkout_session():
     return jsonify(id=session.id)
 
 
-@donations.route('/success')
+@donations.route('/success', methods=['POST', 'GET'])
 def thanks():
+    if request.method == 'POST':
+        donatedTo = request.form['gradname']
+        donateinfo_email(donatedTo)
+        return jsonify(data=donatedTo)
+
     return render_template("thanks.html")
 
 

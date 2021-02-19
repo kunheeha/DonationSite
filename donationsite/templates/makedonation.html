@@ -32,14 +32,21 @@
 						<p class="card-text">{{ grad.self_desc }}</p>
 					</div>
 					<div class="card-footer">
-						<a class="btn btn-primary" id="checkout-button">Donate</a>
+						<a class="btn btn-primary" id="checkout-button" data-gradname="{{ grad.name }}">Donate</a>
 					</div>
 				</div>
 			</div>
 			{% endfor %}
+			<button id="testbutton">Test</button>
 		</div>
 	</div>
 
-	<script type="text/javascript" src="{{ url_for('static', filename='javascript/donate.js') }}"></script>
+	
 
 {% endblock content %}
+
+{% block js %}
+
+	<script type="text/javascript" src="{{ url_for('static', filename='javascript/donate.js') }}"></script>
+
+{% endblock %}
