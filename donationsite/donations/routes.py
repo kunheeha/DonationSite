@@ -18,6 +18,15 @@ def makedonation():
 stripe.api_key = stripe_keys['secret_key']
 
 
+@donations.route('/beforecheckout', methods=['POST'])
+def beforecheckout():
+    if request.method == 'POST':
+        received = request.form['gradName']
+        global donatedTo
+        donatedTo = str(received)
+        return jsonify(data=donatedTo)
+
+
 @donations.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
     session = stripe.checkout.Session.create(
@@ -26,7 +35,8 @@ def create_checkout_session():
             'price_data': {
                     'currency': 'gbp',
                     'product_data': {
-                                'name': '£5 Donation'
+                                'name': '£5 Donation',
+                                'description': donatedTo
                     },
                     'unit_amount': 500,
                     },
@@ -42,11 +52,6 @@ def create_checkout_session():
 
 @donations.route('/success', methods=['POST', 'GET'])
 def thanks():
-    if request.method == 'POST':
-        donatedTo = request.form['gradname']
-        donateinfo_email(donatedTo)
-        return jsonify(data=donatedTo)
-
     return render_template("thanks.html")
 
 
