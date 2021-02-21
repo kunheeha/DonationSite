@@ -10,16 +10,16 @@ main = Blueprint('main', __name__)
 def index():
     grads = User.query.all()
 
-    if request.method == 'POST':
-        received = request.form['gradId']
-        global gradid
-        gradid = int(received)
+    # if request.method == 'POST':
+    #     received = request.form['gradId']
+    #     global gradid
+    #     gradid = int(received)
 
     return render_template("index.html", grads=grads)
 
 
-@main.route('/profile', methods=['GET', 'POST'])
-def profile():
+@main.route('/profile/<gradid>', methods=['GET', 'POST'])
+def profile(gradid):
     grad = User.query.filter_by(id=gradid).first()
     image_file = url_for(
         'static', filename='profilepics/' + grad.image_file)
