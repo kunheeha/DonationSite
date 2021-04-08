@@ -8,12 +8,8 @@ main = Blueprint('main', __name__)
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    grads = User.query.all()
 
-    # if request.method == 'POST':
-    #     received = request.form['gradId']
-    #     global gradid
-    #     gradid = int(received)
+    grads = User.query.all()
 
     return render_template("index.html", grads=grads)
 

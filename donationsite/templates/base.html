@@ -17,7 +17,9 @@
 	<!-- Bootstrap -->
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
 
-	
+	{# Main CSS #}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+
 
 	{% block head %}{% endblock %}
 </head>
@@ -56,13 +58,16 @@
 		</nav>
 	</header>
 
-	{% block content %}{% endblock %}
+	<main class="flex-fill">
+		{% block content %}{% endblock %}
+	</main>
+
 
 
 	<!-- Footer -->
-	<footer class="py-5 bg-dark">
+	<footer class="footer mt-auto py-3">
 		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; Developer - Kunhee Ha @2020</p>
+			<span><a class="footer-link" href="https://www.linkedin.com/in/kunheeha" target="_blank">Developer - Kunhee Ha</a></span>
 		</div>
 	</footer>
 
@@ -73,6 +78,5 @@
 
 	<!-- Bootstrap -->
 	<script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-	
 	{% block js %}{% endblock %}
 </body>

@@ -10,21 +10,18 @@ donations = Blueprint('donations', __name__)
 
 @donations.route('/makedonation')
 def makedonation():
-    grads = User.query.all()
+
+    q = request.args.get('q', type=str)
+    if q:
+        print(q)
+        grads = User.query.filter(User.name.contains(q)).all()
+    else:
+        grads = User.query.all()
 
     return render_template("makedonation.html", grads=grads)
 
 
 stripe.api_key = stripe_keys['secret_key']
-
-
-# @donations.route('/beforecheckout', methods=['POST'])
-# def beforecheckout():
-#     if request.method == 'POST':
-#         received = request.form['gradName']
-#         global donatedTo
-#         donatedTo = str(received)
-#         return jsonify(data=donatedTo)
 
 
 @donations.route('/create-checkout-session/<donatedTo>', methods=['POST'])
@@ -52,8 +49,6 @@ def create_checkout_session(donatedTo):
 
 @donations.route('/success', methods=['POST', 'GET'])
 def thanks():
-    # global donatedTo
-    # donateinfo_email(donatedTo)
     return render_template("thanks.html")
 
 

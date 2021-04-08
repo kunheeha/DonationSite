@@ -36,7 +36,7 @@ class AddCVForm(FlaskForm):
 
 class AddImageForm(FlaskForm):
     image_file = FileField('Update Profile Picture', validators=[
-                           FileAllowed(['jpg', 'png'])])
+                           FileAllowed(['jpg', 'png', 'jpeg'])])
     submit = SubmitField('Upload')
 
 

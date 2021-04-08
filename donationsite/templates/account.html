@@ -28,7 +28,7 @@
 					{% if messages %}
 						{% for category, message in messages %}
 							<div class="alert alert-{{ category }}">
-								{{ message }}								
+								{{ message }}
 							</div>
 						{% endfor %}
 					{% endif %}
@@ -131,12 +131,12 @@
 	        </div>
 	    </div>
 	</div>
-	<div style="display: none;" id="addImage" enctype="multipart/form-data">
+	<div style="display: none;" id="addImage">
 	    <div class="container">
 	        <div class="row">
 	            <div class="col-md-12">
 	            	<h4>Upload Profile Photo</h4>
-	            	<form method="POST" action="">
+	            	<form method="POST" action="" enctype="multipart/form-data">
 	            		<div>
 	            			<div class="form-group">
 	            				{{ imageform.csrf_token }}

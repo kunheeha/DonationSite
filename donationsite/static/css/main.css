@@ -1,0 +1,19 @@
+html {
+    overflow: hidden;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    overflow: auto;
+}
+
+.footer {
+  background-color: #343a40;
+  margin-top: 50px !important;
+}
+
+.footer-link {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
