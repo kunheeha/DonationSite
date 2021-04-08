@@ -96,3 +96,8 @@
 .looklikelink:hover {
   text-decoration: underline;
 }
+
+.donationButton {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}

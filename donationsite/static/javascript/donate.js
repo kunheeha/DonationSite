@@ -27,18 +27,6 @@ $(document).ready(function () {
 
 	$('.donationButton').on('click', function() {
 		var gradName = $(this).attr('data-gradname');
-		// $.ajax({
-		// 	type : 'POST',
-		// 	url : '/beforecheckout',
-		// 	data : {gradName:gradName},
-		// 	success : function (data) {
-		// 		console.log('Success' + data);
-		// 		runStripe();
-		// 	},
-		// 	error : function() {
-		// 		console.log("didnt work " + gradName)
-		// 	}
-		// });
 		runStripe(gradName);
 
 

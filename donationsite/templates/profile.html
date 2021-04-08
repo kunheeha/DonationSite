@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+	<script src="https://js.stripe.com/v3/"></script>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/account.css') }}">
 
 	<!-- Fancybox -->
@@ -46,6 +46,8 @@
 						</div>
 					</div>
 				</div>
+				<hr>
+				<a class="btn btn-primary donationButton" data-gradname="{{ grad.name }}">Donate</a>
 			</div>
 			<div class="col-md-4 mb-5">
 				<h3>Degree</h3>
@@ -68,13 +70,12 @@
 			</div>
 		</div>
 	</div>
-	
 
 
 
 {% endblock content %}
 
 {% block js %}
-
+	<script type="text/javascript" src="{{ url_for('static', filename='javascript/donate.js') }}"></script>
 
 {% endblock %}
